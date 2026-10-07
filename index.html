@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>102 Etiquetas HTML</title>
+<style>
+  :root{
+    --bg:#0f172a; --panel:#131b2e; --line:#22304d; --text:#e6ebf5; --muted:#93a1bf;
+    --accent:#5fc9d6; --accent2:#f2b56b;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--text);font-family:'Segoe UI',Roboto,Arial,sans-serif;line-height:1.45}
+  header{padding:36px 24px 20px;max-width:1200px;margin:0 auto}
+  h1{font-size:1.9rem;margin:0 0 6px;letter-spacing:.2px}
+  header p{color:var(--muted);margin:0 0 18px;max-width:70ch}
+  .controls{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:6px}
+  .controls input, .controls select{
+    background:var(--panel);border:1px solid var(--line);color:var(--text);
+    padding:9px 12px;border-radius:8px;font-size:.95rem;
+  }
+  .controls input{flex:1;min-width:220px}
+  .count{color:var(--muted);font-size:.85rem;margin:8px 0 0}
+  main{max-width:1200px;margin:0 auto;padding:0 24px 60px}
+  .tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px}
+  table{border-collapse:collapse;width:100%;min-width:900px;font-size:.92rem}
+  thead th{
+    position:sticky;top:0;background:#0c1424;color:var(--muted);
+    text-align:left;padding:12px 14px;border-bottom:1px solid var(--line);
+    font-weight:600;
+  }
+  tbody td{padding:12px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+  tbody tr:hover{background:#111b30}
+  td.num{color:var(--muted);width:38px}
+  td.tag code, td.ej code{
+    background:#0c1424;border:1px solid var(--line);color:var(--accent2);
+    padding:2px 6px;border-radius:5px;font-family:Consolas,Menlo,monospace;font-size:.88rem;
+  }
+  td.desc{max-width:280px;color:#d3dbef}
+  td.ej code{color:#bcd9de;display:inline-block;white-space:pre-wrap;word-break:break-word}
+  td.extra{max-width:260px;color:var(--muted);font-size:.87rem}
+  .badge{
+    display:inline-block;padding:3px 9px;border-radius:999px;font-size:.75rem;
+    border:1px solid var(--line);white-space:nowrap;
+  }
+  .cat-Estructura{color:#8ecae6;border-color:#28425c}
+  .cat-Contenido{color:#a3d977;border-color:#3a5228}
+  .cat-Texto{color:#f2b56b;border-color:#5c451f}
+  .cat-Multimedia{color:#e18aad;border-color:#5c2438}
+  .cat-Tablas{color:#c4b5fd;border-color:#3f3567}
+  .cat-Formularios{color:#5fc9d6;border-color:#1f4c52}
+  .cat-Interactivos{color:#f28b82;border-color:#5c2222}
+  footer{color:var(--muted);text-align:center;padding:20px;font-size:.85rem}
+  @media (max-width:600px){ h1{font-size:1.5rem} }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>102 Etiquetas HTML</h1>
+  <p>Referencia con número, nombre, categoría, descripción, ejemplo de uso y una nota adicional para cada etiqueta del lenguaje HTML.</p>
+  <div class="controls">
+    <input id="buscar" type="text" placeholder="Buscar por nombre o descripción...">
+    <select id="categoria">
+      <option value="">Todas las categorías</option>
+      <option>Estructura</option>
+      <option>Contenido</option>
+      <option>Texto</option>
+      <option>Multimedia</option>
+      <option>Tablas</option>
+      <option>Formularios</option>
+      <option>Interactivos</option>
+    </select>
+  </div>
+  <p class="count" id="contador"></p>
+</header>
+
+<main>
+  <div class="tablewrap">
+    <table>
+      <thead>
+        <tr><th>#</th><th>Etiqueta</th><th>Categoría</th><th>Descripción</th><th>Ejemplo de uso</th><th>Elemento adicional</th></tr>
+      </thead>
+      <tbody id="cuerpo"></tbody>
+    </table>
+  </div>
+</main>
+
+<footer>Trabajo de Arquitectura de Aplicaciones Web &middot; 102 etiquetas HTML</footer>
+
+<script>
+const DATA = [
+[1,"html","Estructura","Elemento raíz que contiene todo el documento HTML.",'<html lang="es">...</html>',"El atributo lang define el idioma del documento."],
+[2,"head","Estructura","Contiene los metadatos del documento, no visibles en la página.",'<head><title>Mi página</title></head>',"Aquí van <meta>, <title>, <link> y <script>."],
+[3,"title","Estructura","Define el título mostrado en la pestaña del navegador.",'<title>Mi sitio web</title>',"Importante para el SEO y los marcadores del navegador."],
+[4,"body","Estructura","Contiene todo el contenido visible de la página.",'<body><h1>Hola</h1></body>',"Solo puede existir un <body> por documento."],
+[5,"header","Estructura","Representa la cabecera de una página o sección.",'<header><h1>Mi Sitio</h1></header>',"Suele contener el logo y la navegación principal."],
+[6,"nav","Estructura","Define un bloque de enlaces de navegación.",'<nav><a href="#inicio">Inicio</a></nav>',"Mejora la accesibilidad para lectores de pantalla."],
+[7,"main","Estructura","Define el contenido principal y único de la página.",'<main><p>Contenido principal</p></main>',"Solo debe usarse una vez por documento."],
+[8,"section","Estructura","Agrupa contenido relacionado temáticamente.",'<section><h2>Servicios</h2></section>',"Normalmente incluye su propio encabezado."],
+[9,"article","Estructura","Define contenido independiente y autocontenible.",'<article><h2>Noticia</h2><p>...</p></article>',"Ideal para publicaciones de blog o noticias."],
+[10,"aside","Estructura","Define contenido relacionado pero secundario al principal.",'<aside>Enlaces relacionados</aside>',"Común en barras laterales."],
+[11,"footer","Estructura","Representa el pie de una página o sección.",'<footer>&copy; 2026 Mi Sitio</footer>',"Suele contener contacto o derechos de autor."],
+[12,"h1","Contenido","Encabezado de mayor jerarquía en la página.",'<h1>Título Principal</h1>',"Debe usarse idealmente una sola vez por página."],
+[13,"h2","Contenido","Subencabezado de segundo nivel.",'<h2>Subtítulo</h2>',"Se usa para dividir secciones del contenido."],
+[14,"h3","Contenido","Encabezado de tercer nivel.",'<h3>Sección</h3>',"Útil para organizar subsecciones dentro de un h2."],
+[15,"h4","Contenido","Encabezado de cuarto nivel.",'<h4>Detalle</h4>',"Poco usado, para jerarquías muy específicas."],
+[16,"h5","Contenido","Encabezado de quinto nivel.",'<h5>Nota</h5>',"Jerarquía casi mínima dentro de los encabezados."],
+[17,"h6","Contenido","Encabezado de menor jerarquía.",'<h6>Aclaración</h6>',"Último nivel de la escala de encabezados."],
+[18,"p","Contenido","Define un párrafo de texto.",'<p>Este es un párrafo.</p>',"Puede contener elementos en línea como <a> o <strong>."],
+[19,"hr","Contenido","Inserta una línea horizontal de separación temática.",'<hr>',"Elemento vacío, no lleva etiqueta de cierre."],
+[20,"pre","Contenido","Muestra texto preformateado respetando espacios y saltos.",'<pre>  Código   con espacios</pre>',"Se combina frecuentemente con <code>."],
+[21,"blockquote","Contenido","Define una cita larga proveniente de otra fuente.",'<blockquote cite="url">Texto citado</blockquote>',"El atributo cite indica la fuente original."],
+[22,"ol","Contenido","Define una lista ordenada (numerada).",'<ol><li>Uno</li><li>Dos</li></ol>',"El atributo start define el número inicial."],
+[23,"ul","Contenido","Define una lista desordenada (con viñetas).",'<ul><li>Elemento A</li></ul>',"Cada elemento se define con <li>."],
+[24,"li","Contenido","Define un elemento dentro de una lista.",'<li>Elemento de lista</li>',"Se usa dentro de <ul>, <ol> o <menu>."],
+[25,"dl","Contenido","Define una lista de descripción (términos y definiciones).",'<dl><dt>HTML</dt><dd>Lenguaje de marcado</dd></dl>',"Combina siempre <dt> con <dd>."],
+[26,"dt","Contenido","Define el término dentro de una lista de descripción.",'<dt>CSS</dt>',"Va seguido normalmente de uno o más <dd>."],
+[27,"dd","Contenido","Define la descripción de un término.",'<dd>Hojas de estilo en cascada</dd>',"Se indenta visualmente por defecto."],
+[28,"figure","Contenido","Agrupa contenido multimedia junto con su leyenda.",'<figure><img src="foto.jpg" alt="Foto"><figcaption>Pie de foto</figcaption></figure>',"Se usa junto con <figcaption>."],
+[29,"figcaption","Contenido","Define la leyenda o descripción de un <figure>.",'<figcaption>Descripción de la imagen</figcaption>',"Debe ser el primer o último hijo de <figure>."],
+[30,"div","Contenido","Contenedor genérico sin significado semántico.",'<div class="caja">Contenido</div>',"Se usa para aplicar estilos o agrupar elementos."],
+[31,"a","Texto","Define un hipervínculo hacia otra página o recurso.",'<a href="https://ejemplo.com">Visitar</a>',"target=\"_blank\" abre el enlace en una nueva pestaña."],
+[32,"em","Texto","Da énfasis enfático al texto (cursiva).",'<em>texto enfatizado</em>',"Tiene significado semántico, no solo visual."],
+[33,"strong","Texto","Indica texto de gran importancia (negrita).",'<strong>texto importante</strong>',"A diferencia de <b>, aporta significado semántico."],
+[34,"small","Texto","Reduce el tamaño del texto, usado para notas legales.",'<small>Todos los derechos reservados</small>',"Común en pies de página y avisos legales."],
+[35,"s","Texto","Indica texto que ya no es correcto o relevante.",'<s>Precio: $50</s>',"Distinto de <del>, que indica una edición."],
+[36,"cite","Texto","Define el título de una obra referenciada.",'<cite>Cien años de soledad</cite>',"Se usa para libros, artículos o películas."],
+[37,"q","Texto","Define una cita corta dentro del texto.",'<q>Esto es una cita</q>',"El navegador agrega las comillas automáticamente."],
+[38,"dfn","Texto","Marca la definición de un término.",'<dfn>HTML</dfn> es un lenguaje de marcado.',"Se recomienda combinar con <abbr> o <dl>."],
+[39,"abbr","Texto","Define una abreviatura o acrónimo.",'<abbr title="HyperText Markup Language">HTML</abbr>',"El atributo title muestra el significado al pasar el mouse."],
+[40,"ruby","Texto","Contenedor para anotaciones de pronunciación (usado en textos asiáticos).",'<ruby>漢 <rt>kan</rt></ruby>',"Se combina con <rt> y <rp>."],
+[41,"rt","Texto","Define la anotación de pronunciación dentro de <ruby>.",'<rt>kan</rt>',"Solo tiene sentido dentro de <ruby>."],
+[42,"rp","Texto","Texto alternativo para navegadores sin soporte a <ruby>.",'<rp>(</rp><rt>kan</rt><rp>)</rp>',"Muestra paréntesis si el navegador no soporta ruby."],
+[43,"data","Texto","Vincula contenido con un valor legible por máquina.",'<data value="398">Camisa</data>',"Útil para scripts que procesan datos."],
+[44,"time","Texto","Representa una fecha o una hora.",'<time datetime="2026-09-24">24 de septiembre</time>',"El atributo datetime facilita su lectura por máquinas."],
+[45,"code","Texto","Muestra texto como un fragmento de código.",'<code>console.log("Hola");</code>',"Se muestra en fuente monoespaciada por defecto."],
+[46,"var","Texto","Representa una variable en una expresión matemática o de código.",'<var>x</var> = 10',"Se muestra normalmente en cursiva."],
+[47,"samp","Texto","Representa la salida de un programa o script.",'<samp>Error 404: no encontrado</samp>',"Útil para mostrar resultados de consola."],
+[48,"kbd","Texto","Representa una entrada de teclado del usuario.",'<kbd>Ctrl</kbd> + <kbd>C</kbd>',"Se muestra en fuente monoespaciada."],
+[49,"sub","Texto","Define texto en subíndice.",'H<sub>2</sub>O',"Común en fórmulas químicas."],
+[50,"sup","Texto","Define texto en superíndice.",'x<sup>2</sup>',"Común en exponentes matemáticos."],
+[51,"i","Texto","Muestra texto en cursiva sin énfasis semántico.",'<i>Nombre científico</i>',"Se usa para términos técnicos o nombres propios."],
+[52,"b","Texto","Muestra texto en negrita sin importancia semántica.",'<b>Aviso</b>',"Puramente visual, no aporta énfasis semántico."],
+[53,"u","Texto","Subraya el texto.",'<u>Texto subrayado</u>',"Debe evitarse confundirlo con un enlace."],
+[54,"mark","Texto","Resalta texto como si estuviera marcado con un marcador.",'<mark>texto resaltado</mark>',"Ideal para resaltar resultados de búsqueda."],
+[55,"bdi","Texto","Aísla texto que puede tener una dirección de escritura distinta.",'<bdi>اسم المستخدم</bdi>',"Útil en contenido con texto bidireccional."],
+[56,"bdo","Texto","Anula la dirección de escritura del texto.",'<bdo dir="rtl">Texto al revés</bdo>',"El atributo dir puede ser rtl o ltr."],
+[57,"span","Texto","Contenedor genérico en línea sin significado semántico.",'<span class="rojo">texto</span>',"Se usa para aplicar estilos a partes de un texto."],
+[58,"br","Texto","Inserta un salto de línea.",'Línea uno<br>Línea dos',"Elemento vacío, sin etiqueta de cierre."],
+[59,"wbr","Texto","Sugiere un punto opcional de salto de línea.",'super<wbr>califragilisticoexpialidoso',"Útil en palabras muy largas."],
+[60,"ins","Texto","Marca texto insertado o agregado en un documento.",'<ins>Texto nuevo</ins>',"Se muestra subrayado por defecto."],
+[61,"del","Texto","Marca texto eliminado de un documento.",'<del>Texto eliminado</del>',"Se muestra tachado por defecto."],
+[62,"img","Multimedia","Inserta una imagen en la página.",'<img src="foto.jpg" alt="Descripción">',"El atributo alt es esencial para la accesibilidad."],
+[63,"iframe","Multimedia","Incrusta otra página web dentro de la actual.",'<iframe src="https://ejemplo.com"></iframe>',"Se usa para videos de YouTube, mapas, etc."],
+[64,"embed","Multimedia","Incrusta contenido externo como plugins o multimedia.",'<embed src="archivo.pdf" type="application/pdf">',"Cada vez menos usado, reemplazado por <object>."],
+[65,"object","Multimedia","Incrusta recursos externos como PDF o multimedia.",'<object data="archivo.pdf" type="application/pdf"></object>',"Puede mostrar contenido alternativo entre las etiquetas."],
+[66,"param","Multimedia","Define parámetros para un elemento <object>.",'<param name="autoplay" value="true">',"Elemento en desuso en HTML5."],
+[67,"video","Multimedia","Incrusta contenido de video.",'<video controls src="video.mp4"></video>',"El atributo controls muestra los botones de reproducción."],
+[68,"audio","Multimedia","Incrusta contenido de audio.",'<audio controls src="cancion.mp3"></audio>',"Soporta múltiples formatos con <source>."],
+[69,"source","Multimedia","Define fuentes alternativas para <video>, <audio> o <picture>.",'<source src="video.webm" type="video/webm">',"Permite ofrecer varios formatos según el navegador."],
+[70,"track","Multimedia","Agrega subtítulos o pistas de texto a video o audio.",'<track src="subs.vtt" kind="subtitles" srclang="es">',"Mejora la accesibilidad de contenido multimedia."],
+[71,"map","Multimedia","Define un mapa de imagen con áreas clicables.",'<map name="mapa"><area shape="rect" coords="0,0,50,50" href="#"></map>',"Se vincula a una imagen con el atributo usemap."],
+[72,"area","Multimedia","Define un área clicable dentro de un <map>.",'<area shape="circle" coords="30,30,20" href="#zona">',"El atributo shape define la forma del área."],
+[73,"canvas","Multimedia","Define un lienzo para dibujar gráficos con JavaScript.",'<canvas id="lienzo" width="200" height="100"></canvas>',"Se manipula mediante la API de Canvas en JS."],
+[74,"svg","Multimedia","Define gráficos vectoriales escalables.",'<svg><circle cx="50" cy="50" r="40"/></svg>',"Los gráficos SVG no pierden calidad al hacer zoom."],
+[75,"picture","Multimedia","Permite mostrar distintas imágenes según el dispositivo.",'<picture><source srcset="img.webp" type="image/webp"><img src="img.jpg"></picture>',"Ideal para imágenes responsivas."],
+[76,"table","Tablas","Define una tabla de datos.",'<table><tr><td>Dato</td></tr></table>',"Se compone de filas <tr> y celdas <td>/<th>."],
+[77,"caption","Tablas","Define el título de una tabla.",'<caption>Tabla de precios</caption>',"Debe ser el primer elemento dentro de <table>."],
+[78,"colgroup","Tablas","Agrupa columnas de una tabla para aplicar estilos.",'<colgroup><col style="background:#eee"></colgroup>',"Se usa junto con <col>."],
+[79,"col","Tablas","Define propiedades de una columna dentro de <colgroup>.",'<col span="2" style="background:#ccc">',"El atributo span agrupa varias columnas."],
+[80,"tbody","Tablas","Agrupa el cuerpo de datos de una tabla.",'<tbody><tr><td>Fila 1</td></tr></tbody>',"Separa el contenido del encabezado y del pie."],
+[81,"thead","Tablas","Agrupa las filas de encabezado de una tabla.",'<thead><tr><th>Nombre</th></tr></thead>',"Se muestra generalmente en negrita por defecto."],
+[82,"tfoot","Tablas","Agrupa las filas de pie de una tabla.",'<tfoot><tr><td>Total</td></tr></tfoot>',"Útil para mostrar totales o resúmenes."],
+[83,"tr","Tablas","Define una fila dentro de una tabla.",'<tr><td>Celda 1</td><td>Celda 2</td></tr>',"Contiene celdas <td> o <th>."],
+[84,"td","Tablas","Define una celda de datos en una tabla.",'<td>Contenido</td>',"colspan y rowspan permiten combinar celdas."],
+[85,"th","Tablas","Define una celda de encabezado en una tabla.",'<th>Producto</th>',"Se muestra en negrita y centrada por defecto."],
+[86,"form","Formularios","Define un formulario para recolectar datos del usuario.",'<form action="/enviar" method="post">...</form>',"action y method definen a dónde y cómo se envían los datos."],
+[87,"label","Formularios","Define una etiqueta para un control de formulario.",'<label for="nombre">Nombre:</label><input id="nombre">',"Mejora la accesibilidad al vincularse con for/id."],
+[88,"input","Formularios","Define un campo de entrada de datos.",'<input type="email" placeholder="Correo">',"El atributo type cambia su comportamiento (text, email, checkbox...)."],
+[89,"button","Formularios","Define un botón interactivo.",'<button type="submit">Enviar</button>',"type puede ser submit, reset o button."],
+[90,"select","Formularios","Define una lista desplegable de opciones.",'<select><option>Opción 1</option></select>',"Se combina con <option> y <optgroup>."],
+[91,"datalist","Formularios","Define una lista de opciones sugeridas para un input.",'<datalist id="frutas"><option value="Manzana"></datalist>',"Se vincula a un input mediante el atributo list."],
+[92,"optgroup","Formularios","Agrupa opciones relacionadas dentro de un <select>.",'<optgroup label="Frutas"><option>Manzana</option></optgroup>',"Ayuda a organizar listas largas de opciones."],
+[93,"option","Formularios","Define una opción dentro de <select> o <datalist>.",'<option value="1">Uno</option>',"El atributo selected marca la opción por defecto."],
+[94,"textarea","Formularios","Define un campo de texto multilínea.",'<textarea rows="4" cols="30">Escribe aquí...</textarea>',"A diferencia de <input>, permite varias líneas."],
+[95,"output","Formularios","Muestra el resultado de un cálculo o acción del usuario.",'<output name="resultado">42</output>',"Se usa frecuentemente con JavaScript y formularios."],
+[96,"progress","Formularios","Muestra el progreso de una tarea.",'<progress value="70" max="100"></progress>',"Ideal para barras de carga o descargas."],
+[97,"meter","Formularios","Muestra un valor escalar dentro de un rango conocido.",'<meter value="6" min="0" max="10"></meter>',"A diferencia de <progress>, representa una medición, no una tarea."],
+[98,"fieldset","Formularios","Agrupa elementos relacionados dentro de un formulario.",'<fieldset><legend>Datos</legend>...</fieldset>',"Dibuja un borde visual alrededor del grupo por defecto."],
+[99,"legend","Formularios","Define el título de un <fieldset>.",'<legend>Información personal</legend>',"Debe colocarse como primer hijo de <fieldset>."],
+[100,"details","Interactivos","Crea un widget desplegable con información oculta o visible.",'<details><summary>Ver más</summary><p>Contenido</p></details>',"El atributo open lo muestra expandido por defecto."],
+[101,"summary","Interactivos","Define el título visible de un <details>.",'<summary>Haz clic para expandir</summary>',"Debe ser el primer hijo de <details>."],
+[102,"dialog","Interactivos","Define un cuadro de diálogo o ventana modal.",'<dialog open>Este es un diálogo</dialog>',"Se controla con JavaScript mediante showModal() y close()."]
+];
+
+const cuerpo = document.getElementById('cuerpo');
+const contador = document.getElementById('contador');
+const buscar = document.getElementById('buscar');
+const categoria = document.getElementById('categoria');
+
+function render(){
+  const q = buscar.value.trim().toLowerCase();
+  const cat = categoria.value;
+  cuerpo.innerHTML = '';
+  let n = 0;
+  DATA.forEach(row => {
+    const [num, tag, cate, desc, ej, extra] = row;
+    if (cat && cate !== cat) return;
+    if (q && !(tag.toLowerCase().includes(q) || desc.toLowerCase().includes(q))) return;
+    n++;
+    const esc = s => s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td class="num">${num}</td>
+      <td class="tag"><code>&lt;${tag}&gt;</code></td>
+      <td><span class="badge cat-${cate}">${cate}</span></td>
+      <td class="desc">${esc(desc)}</td>
+      <td class="ej"><code>${esc(ej)}</code></td>
+      <td class="extra">${esc(extra)}</td>`;
+    cuerpo.appendChild(tr);
+  });
+  contador.textContent = `Mostrando ${n} de ${DATA.length} etiquetas`;
+}
+
+buscar.addEventListener('input', render);
+categoria.addEventListener('change', render);
+render();
+</script>
+</body>
+</html>
